@@ -129,7 +129,7 @@ static DSLToastView *_sharedToast;
 {
     [super layoutSubviews];
     
-    _label.frame = self.bounds;
+    _label.frame = CGRectMake(0, 5, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 10);
 }
 
 - (void)drawRect:(CGRect)rect
