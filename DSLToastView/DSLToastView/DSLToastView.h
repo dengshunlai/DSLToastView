@@ -2,15 +2,16 @@
 //  DSLToastView.h
 //  DSLToastViewDemo
 //
-//  Created by dengshunlai on 16/1/22.
-//  Copyright © 2016年 dengshunlai. All rights reserved.
+//  Created by 邓顺来 on 16/1/22.
+//  Copyright © 2016年 邓顺来. All rights reserved.
 //
 
 /*********************************************************************************
  *
- *
+ * 用法：[DSLToastView toastWithText:@"文本"];
  * 该控件是一个单例
  * 感谢您的使用！
+ * 与我联系：mu3305495@163.com
  *
  *********************************************************************************/
 
@@ -29,19 +30,19 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 @interface DSLToastView : UIView
 
 /**
- *  文本
+ *  设置文本属性
  */
-@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSMutableDictionary *textAttributes;
 
 /**
- *  字体大小，默认17，根据文本和字体大小自动确定适合的宽度
+ *  y坐标的偏移量，默认为0，在屏幕中间显示
+ */
+@property (nonatomic, assign) CGFloat yOffset;
+
+/**
+ *  字体大小，默认17
  */
 @property (nonatomic, assign) CGFloat fontSize;
-
-/**
- *  高
- */
-@property (nonatomic, assign) CGFloat height;
 
 /**
  *  宽的补偿，默认为0，小于0变窄，大于0变宽
@@ -49,9 +50,9 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 @property (nonatomic, assign) CGFloat widthCompensate;
 
 /**
- *  y坐标的偏移量，默认为0，在屏幕中间显示
+ *  高的补偿，默认为0，小于0变窄，大于0变宽
  */
-@property (nonatomic, assign) CGFloat yOffset;
+@property (nonatomic, assign) CGFloat heightCompensate;
 
 /**
  *  文本颜色
@@ -76,11 +77,18 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 //@property (nonatomic, assign) DSLToastViewStyle style;
 
 /**
- *  toast显示的方法
+ *  toast显示方法
  *
  *  @param text 显示的文本
  */
 + (void)toastWithText:(NSString *)text;
+
+/**
+ *  toast显示方法
+ *
+ *  @param attributedText 显示的属性文本
+ */
++ (void)toastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置

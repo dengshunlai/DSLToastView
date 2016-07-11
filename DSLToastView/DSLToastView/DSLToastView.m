@@ -2,8 +2,8 @@
 //  DSLToastView.m
 //  DSLToastViewDemo
 //
-//  Created by dengshunlai on 16/1/22.
-//  Copyright © 2016年 dengshunlai. All rights reserved.
+//  Created by 邓顺来 on 16/1/22.
+//  Copyright © 2016年 邓顺来. All rights reserved.
 //
 
 #import "DSLToastView.h"
@@ -13,9 +13,10 @@
 #define kScreenCenter CGPointMake(kScreenWidth / 2, kScreenHeight / 2)
 
 static CGFloat const kFontSize = 17;
-static CGFloat const kHeight = 40;
 static CGFloat const kWidthExtra = 60;
+static CGFloat const kHeightExtra = 20;
 static CGFloat const kWidthCompensate = 0;
+static CGFloat const kHeightCompensate = 0;
 static CGFloat const kYOffset = 0;
 static CGFloat const kCornerRadius = 10;
 static CGFloat const kFadeDismissAnimationDuration = 0.3;
@@ -27,9 +28,12 @@ static DSLToastView *_sharedToast;
 
 @interface DSLToastView ()
 
+@property (nonatomic, strong) NSAttributedString *text;
+
 @property (nonatomic, strong) UILabel *label;
 
 @property (nonatomic, assign) CGFloat width;
+@property (nonatomic, assign) CGFloat height;
 
 @property (nonatomic, assign) BOOL isToastStaying;
 
@@ -75,7 +79,14 @@ static DSLToastView *_sharedToast;
 + (void)toastWithText:(NSString *)text
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
-    toast.text = text;
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr];
+}
+
++ (void)toastWithAttributedText:(NSAttributedString *)attributedText
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    toast.text = attributedText;
     toast.frame = CGRectMake(0, 0, toast.width, toast.height);
     CGPoint center = kScreenCenter;
     center.y = center.y + toast.yOffset;
@@ -99,14 +110,17 @@ static DSLToastView *_sharedToast;
     self.layer.cornerRadius = kCornerRadius;
     self.layer.masksToBounds = YES;
     
-    _height = kHeight;
     _fontSize = kFontSize;
     _isToastStaying = NO;
     _fadeStartAnimationDuration = kFadeStartAnimationDuration;
     _fadeDismissAnimationDuration = kFadeDismissAnimationDuration;
     _stayTime = kStayTime;
     _widthCompensate = kWidthCompensate;
+    _heightCompensate = kHeightCompensate;
     _yOffset = kYOffset;
+    _textColor = [UIColor whiteColor];
+    _textAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
+                        NSForegroundColorAttributeName:_textColor}.mutableCopy;
 
     [self creatLabel];
 }
@@ -127,39 +141,38 @@ static DSLToastView *_sharedToast;
 
 + (void)configureToastWithBlock:(DSLToastViewConfigureBlock)block
 {
-    [DSLToastView sharedInstance].configureBlock = block;//
+//    [DSLToastView sharedInstance].configureBlock = block;//
     block([DSLToastView sharedInstance]);
 }
 
 #pragma mark - Set method
 
-- (void)setText:(NSString *)text
+- (void)setText:(NSAttributedString *)text
 {
-    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kScreenWidth, kHeight)
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kFontSize]}
-                                         context:nil];
+    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kScreenWidth - 20, MAXFLOAT)
+                                         options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
+    
     _text = text;
-    _label.text = _text;
+    _label.attributedText = text;
     
     if (textRect.size.width + kWidthExtra < kScreenWidth - 20) {
-        
         _width = textRect.size.width + kWidthExtra + _widthCompensate;
-    }
-    else {
+    } else {
         _width = kScreenWidth - 20;
     }
+    _height = textRect.size.height + kHeightExtra + _heightCompensate;
 }
 
 - (void)setTextColor:(UIColor *)textColor
 {
     _textColor = textColor;
-    _label.textColor = _textColor;
+    _textAttributes[NSForegroundColorAttributeName] = textColor;
 }
 
-- (void)setHeight:(CGFloat)height
+- (void)setFontSize:(CGFloat)fontSize
 {
-    _height = height;
+    _fontSize = fontSize;
+    _textAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:fontSize];
 }
 
 #pragma mark - Create UI
@@ -170,6 +183,7 @@ static DSLToastView *_sharedToast;
     _label.backgroundColor = [UIColor clearColor];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor whiteColor];
+    _label.numberOfLines = 0;
     
     [self addSubview:_label];
 }
@@ -213,7 +227,7 @@ static DSLToastView *_sharedToast;
     if ([self.layer animationForKey:@"appear"] == anim) {
         
         [self.layer removeAnimationForKey:@"appear"];//NSDefaultRunLoopMode;UITrackingRunLoopMode;NSRunLoopCommonModes;
-        [self performSelector:@selector(dismissToast) withObject:nil afterDelay:kStayTime inModes:@[NSRunLoopCommonModes]];
+        [self performSelector:@selector(dismissToast) withObject:nil afterDelay:_stayTime inModes:@[NSRunLoopCommonModes]];
         _isToastStaying = YES;
     }
     else if ([self.layer animationForKey:@"dismiss"] == anim) {

@@ -220,6 +220,7 @@
 				TargetAttributes = {
 					DD05C1211D33C14D00DC4FFF = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = QTRV8G9WAU;
 					};
 					DD05C13A1D33C14D00DC4FFF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -429,11 +430,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = DSLToastView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dsl.DSLToastView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -441,11 +445,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = DSLToastView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dsl.DSLToastView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -514,6 +521,7 @@
 				DD05C1511D33C14D00DC4FFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DD05C1521D33C14D00DC4FFF /* Build configuration list for PBXNativeTarget "DSLToastViewTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +530,7 @@
 				DD05C1541D33C14D00DC4FFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DD05C1551D33C14D00DC4FFF /* Build configuration list for PBXNativeTarget "DSLToastViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +539,7 @@
 				DD05C1571D33C14D00DC4FFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
