@@ -109,6 +109,10 @@ static DSLToastView *_sharedToast;
     self.layer.cornerRadius = kCornerRadius;
     self.layer.masksToBounds = YES;
     
+    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
+    para.paragraphSpacing = 5;
+    para.alignment = NSTextAlignmentCenter;
+    
     _fontSize = kFontSize;
     _isToastStaying = NO;
     _fadeStartAnimationDuration = kFadeStartAnimationDuration;
@@ -119,7 +123,8 @@ static DSLToastView *_sharedToast;
     _yOffset = kYOffset;
     _textColor = [UIColor whiteColor];
     _textAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
-                        NSForegroundColorAttributeName:_textColor}.mutableCopy;
+                        NSForegroundColorAttributeName:_textColor,
+                        NSParagraphStyleAttributeName:para}.mutableCopy;
 
     [self creatLabel];
 }
@@ -129,11 +134,6 @@ static DSLToastView *_sharedToast;
     [super layoutSubviews];
     
     _label.frame = CGRectMake(0, 5, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 10);
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    ;
 }
 
 #pragma mark - Instance method
@@ -224,13 +224,11 @@ static DSLToastView *_sharedToast;
 - (void)animationDidStop:(CABasicAnimation *)anim finished:(BOOL)flag
 {
     if ([self.layer animationForKey:@"appear"] == anim) {
-        
-        [self.layer removeAnimationForKey:@"appear"];//NSDefaultRunLoopMode;UITrackingRunLoopMode;NSRunLoopCommonModes;
+        [self.layer removeAnimationForKey:@"appear"];
         [self performSelector:@selector(dismissToast) withObject:nil afterDelay:_stayTime inModes:@[NSRunLoopCommonModes]];
         _isToastStaying = YES;
     }
     else if ([self.layer animationForKey:@"dismiss"] == anim) {
-        
         [self.layer removeAnimationForKey:@"dismiss"];
         [self removeFromSuperview];
     }

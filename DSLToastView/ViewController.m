@@ -21,7 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     _texts = @[@"加载失败",@"信息错误\n请重新输入",@"很长很长很长很长很长很长很长很长很长很长很长很长",
-               @"🐔🍗🍔",@"Hello"];
+               @"🐔🍗🍔",@"Hello",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate"];
     
     //设置成喜欢的风格
     [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
@@ -66,10 +66,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row > 4) {
-        return;
+    if (indexPath.row <= 5) {
+        [DSLToastView toastWithText:_texts[indexPath.row]];
     }
-    [DSLToastView toastWithText:_texts[indexPath.row]];
+    if (indexPath.row == 6) {
+        [DSLToastView toastWithAttributedText:[[NSAttributedString alloc] initWithString:@"属性串"
+                                                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],
+                                                                                           NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                                           NSStrikethroughStyleAttributeName:@(1)}]];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
