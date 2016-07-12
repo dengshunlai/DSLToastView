@@ -22,13 +22,12 @@ static CGFloat const kCornerRadius = 10;
 static CGFloat const kFadeDismissAnimationDuration = 0.3;
 static CGFloat const kFadeStartAnimationDuration = 0.2;
 static CGFloat const kStayTime = 1;
+static CGFloat const kBottomSpace = 49;
 
 static DSLToastView *_sharedToast;
 
 
 @interface DSLToastView ()
-
-@property (nonatomic, strong) NSAttributedString *text;
 
 @property (nonatomic, strong) UILabel *label;
 
@@ -36,8 +35,6 @@ static DSLToastView *_sharedToast;
 @property (nonatomic, assign) CGFloat height;
 
 @property (nonatomic, assign) BOOL isToastStaying;
-
-@property (nonatomic, copy) DSLToastViewConfigureBlock configureBlock;
 
 @end
 
@@ -79,16 +76,38 @@ static DSLToastView *_sharedToast;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr];
+    [self toastWithAttributedText:attrStr isCenter:YES];
+}
+
++ (void)bottomToastWithText:(NSString *)text
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr isCenter:NO];
 }
 
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText
+{
+    [self toastWithAttributedText:attributedText isCenter:YES];
+}
+
++ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText
+{
+    [self toastWithAttributedText:attributedText isCenter:NO];
+}
+
++ (void)toastWithAttributedText:(NSAttributedString *)attributedText isCenter:(BOOL)isCenter;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     toast.text = attributedText;
     toast.frame = CGRectMake(0, 0, toast.width, toast.height);
     CGPoint center = kScreenCenter;
-    center.y = center.y + toast.yOffset;
+    if (isCenter) {
+        center.y += toast.yOffset;
+    } else {
+        center.y = kScreenHeight - kBottomSpace - toast.height / 2;
+        center.y += toast.yOffset;
+    }
     toast.center = center;
     [[UIApplication sharedApplication].keyWindow addSubview:toast];
     
@@ -140,8 +159,12 @@ static DSLToastView *_sharedToast;
 
 + (void)configureToastWithBlock:(DSLToastViewConfigureBlock)block
 {
-//    [DSLToastView sharedInstance].configureBlock = block;//
     block([DSLToastView sharedInstance]);
+}
+
++ (void)reset
+{
+    [[DSLToastView sharedInstance] initialization];
 }
 
 #pragma mark - Set method
@@ -151,7 +174,6 @@ static DSLToastView *_sharedToast;
     CGRect textRect = [text boundingRectWithSize:CGSizeMake(kScreenWidth - 20, MAXFLOAT)
                                          options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
     
-    _text = text;
     _label.attributedText = text;
     
     if (textRect.size.width + kWidthExtra < kScreenWidth - 20) {
@@ -165,19 +187,26 @@ static DSLToastView *_sharedToast;
 - (void)setTextColor:(UIColor *)textColor
 {
     _textColor = textColor;
-    _textAttributes[NSForegroundColorAttributeName] = textColor;
+    NSMutableDictionary *temp = _textAttributes.mutableCopy;
+    temp[NSForegroundColorAttributeName] = textColor;
+    _textAttributes = temp;
 }
 
 - (void)setFontSize:(CGFloat)fontSize
 {
     _fontSize = fontSize;
-    _textAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:fontSize];
+    NSMutableDictionary *temp = _textAttributes.mutableCopy;
+    temp[NSFontAttributeName] = [UIFont systemFontOfSize:fontSize];
+    _textAttributes = temp;
 }
 
 #pragma mark - Create UI
 
 - (void)creatLabel
 {
+    if (_label) {
+        return;
+    }
     _label = [[UILabel alloc] init];
     _label.backgroundColor = [UIColor clearColor];
     _label.textAlignment = NSTextAlignmentCenter;

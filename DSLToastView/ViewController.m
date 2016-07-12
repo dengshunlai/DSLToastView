@@ -21,15 +21,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     _texts = @[@"加载失败",@"信息错误\n请重新输入",@"很长很长很长很长很长很长很长很长很长很长很长很长",
-               @"🐔🍗🍔",@"Hello",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate"];
+               @"🐔🍗🍔",@"Hello",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
+               @"底部toast",@"M-V-C\nM-V-V-M",@"很长很长很长很长很长很长很长很长很长很长很长很长"];
     
     //设置成喜欢的风格
-    [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
-        sharedToast.backgroundColor = [UIColor orangeColor];
-        sharedToast.textColor = [UIColor whiteColor];
-        sharedToast.layer.cornerRadius = 20;
-        sharedToast.stayTime = 1.5;
-    }];
+//    [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
+//        sharedToast.backgroundColor = [UIColor orangeColor];
+//        sharedToast.textColor = [UIColor whiteColor];
+//        sharedToast.layer.cornerRadius = 20;
+//        sharedToast.stayTime = 1.5;
+//        sharedToast.textAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:20]}.mutableCopy;
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,13 +69,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row <= 5) {
+        //显示在中间
         [DSLToastView toastWithText:_texts[indexPath.row]];
     }
-    if (indexPath.row == 6) {
-        [DSLToastView toastWithAttributedText:[[NSAttributedString alloc] initWithString:@"属性串"
-                                                                              attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],
-                                                                                           NSForegroundColorAttributeName:[UIColor whiteColor],
-                                                                                           NSStrikethroughStyleAttributeName:@(1)}]];
+    if (indexPath.row > 5 && indexPath.row < 9) {
+        //显示在底部
+        [DSLToastView bottomToastWithText:_texts[indexPath.row]];
     }
 }
 

@@ -32,10 +32,10 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 /**
  *  设置文本属性
  */
-@property (nonatomic, strong) NSMutableDictionary *textAttributes;
+@property (nonatomic, strong) NSDictionary *textAttributes;
 
 /**
- *  y坐标的偏移量，默认为0，在屏幕中间显示
+ *  y坐标的偏移量，默认为0
  */
 @property (nonatomic, assign) CGFloat yOffset;
 
@@ -91,6 +91,20 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
+ *  toast显示在底部
+ *
+ *  @param text 文本
+ */
++ (void)bottomToastWithText:(NSString *)text;
+
+/**
+ *  toast显示在底部
+ *
+ *  @param attributedText 属性文本
+ */
++ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText;
+
+/**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置
  *  例：
  *  [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
@@ -104,5 +118,10 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
  *  @param block 配置block
  */
 + (void)configureToastWithBlock:(DSLToastViewConfigureBlock)block;
+
+/**
+ *  重置toast的所有属性
+ */
++ (void)reset;
 
 @end
