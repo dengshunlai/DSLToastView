@@ -67,7 +67,6 @@ static DSLToastView *_sharedToast;
 + (instancetype)sharedInstance
 {
     if (!_sharedToast) {
-        
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _sharedToast = [[DSLToastView alloc] init];
@@ -156,11 +155,11 @@ static DSLToastView *_sharedToast;
     _label.attributedText = text;
     
     if (textRect.size.width + kWidthExtra < kScreenWidth - 20) {
-        _width = textRect.size.width + kWidthExtra + _widthCompensate;
+        _width = ceil(textRect.size.width + kWidthExtra + _widthCompensate);
     } else {
         _width = kScreenWidth - 20;
     }
-    _height = textRect.size.height + kHeightExtra + _heightCompensate;
+    _height = ceil(textRect.size.height + kHeightExtra + _heightCompensate);
 }
 
 - (void)setTextColor:(UIColor *)textColor
