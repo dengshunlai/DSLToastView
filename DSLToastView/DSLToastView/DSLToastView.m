@@ -96,6 +96,20 @@ static DSLToastView *_sharedToast;
     [self toastWithAttributedText:attributedText isCenter:NO];
 }
 
++ (void)toastWithText:(NSString *)text after:(CGFloat)second
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self toastWithText:text];
+    });
+}
+
++ (void)bottomToastWithText:(NSString *)text after:(CGFloat)second
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self bottomToastWithText:text];
+    });
+}
+
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText isCenter:(BOOL)isCenter;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];

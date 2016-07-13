@@ -9,8 +9,9 @@
 #import "ViewController.h"
 #import "DSLToastView.h"
 
-@interface ViewController () <UITableViewDelegate,UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *texts;
 
 @end
@@ -20,6 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    [searchBar sizeToFit];
+    _tableView.tableHeaderView = searchBar;
+    
     _texts = @[@"加载失败",@"信息错误\n请重新输入",@"很长很长很长很长很长很长很长很长很长很长很长很长",
                @"🐔🍗🍔",@"Hello",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
                @"底部toast",@"M-V-C\nM-V-V-M",@"很长很长很长很长很长很长很长很长很长很长很长很长"];
@@ -37,6 +42,14 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - IBAction
+
+- (IBAction)alert:(UIBarButtonItem *)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否执行此操作？" delegate:self
+                                          cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [alert show];
 }
 
 #pragma mark - UITableViewDataSource
@@ -91,6 +104,23 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0.1;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        //延迟显示
+        [DSLToastView toastWithText:@"操作成功！" after:0.7];
+    }
 }
 
 @end

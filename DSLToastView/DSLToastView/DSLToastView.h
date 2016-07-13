@@ -105,12 +105,27 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 + (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
+ *  延迟second秒后再显示toast
+ *
+ *  @param text   文本
+ *  @param second 延迟的秒数
+ */
++ (void)toastWithText:(NSString *)text after:(CGFloat)second;
+
+/**
+ *  延迟second秒后再在底部显示toast
+ *
+ *  @param text   文本
+ *  @param second 延迟的秒数
+ */
++ (void)bottomToastWithText:(NSString *)text after:(CGFloat)second;
+
+/**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置
  *  例：
  *  [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
  *      sharedToast.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.6];
  *      sharedToast.textColor = [UIColor whiteColor];
- *      sharedToast.height = 88;
  *      sharedToast.layer.cornerRadius = 25;
  *      sharedToast.yOffset = 0;
  *  }];
