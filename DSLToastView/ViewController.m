@@ -26,7 +26,7 @@
     _tableView.tableHeaderView = searchBar;
     
     _texts = @[@"加载失败",@"信息错误\n请重新输入",@"很长很长很长很长很长很长很长很长很长很长很长很长",
-               @"🐔🍗🍔",@"Hello",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
+               @"🐔🍗🍔",@"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
                @"底部toast",@"M-V-C\nM-V-V-M",@"很长很长很长很长很长很长很长很长很长很长很长很长"];
     
     //设置成喜欢的风格
@@ -81,11 +81,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row <= 5) {
+    if (indexPath.row <= 4) {
         //显示在中间
         [DSLToastView toastWithText:_texts[indexPath.row]];
     }
-    if (indexPath.row > 5 && indexPath.row < 9) {
+    if (indexPath.row > 4 && indexPath.row < 8) {
         //显示在底部
         [DSLToastView bottomToastWithText:_texts[indexPath.row]];
     }
