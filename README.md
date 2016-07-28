@@ -10,3 +10,9 @@
 //显示在底部
 
 [DSLToastView bottomToastWithText:@"文本"]; 
+
+##效果图
+
+![](https://github.com/dengshunlai/DSLToastView/raw/master/preview.png)
+
+
