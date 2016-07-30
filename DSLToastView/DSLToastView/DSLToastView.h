@@ -74,8 +74,6 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
  */
 @property (nonatomic, assign) CGFloat stayTime;
 
-//@property (nonatomic, assign) DSLToastViewStyle style;
-
 /**
  *  toast显示方法
  *
