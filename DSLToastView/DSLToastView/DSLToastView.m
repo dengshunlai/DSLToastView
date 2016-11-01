@@ -27,7 +27,7 @@ static CGFloat const kBottomSpace = 49;
 static DSLToastView *_sharedToast;
 
 
-@interface DSLToastView ()
+@interface DSLToastView () <CAAnimationDelegate>
 
 @property (nonatomic, strong) UILabel *label;
 

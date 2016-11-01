@@ -22,9 +22,8 @@
 typedef void(^DSLToastViewConfigureBlock)(DSLToastView *sharedToast);
 
 typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
-    
     DSLToastViewStyleBlack,
-    DSLToastViewStyleWhite,
+    DSLToastViewStyleWhite
 };
 
 @interface DSLToastView : UIView
