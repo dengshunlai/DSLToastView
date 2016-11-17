@@ -88,6 +88,22 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
+ *  延迟second秒后再显示toast
+ *
+ *  @param text   文本
+ *  @param second 延迟的秒数
+ */
++ (void)toastWithText:(NSString *)text after:(CGFloat)second;
+
+/**
+ *  显示toast，停留stayTime秒
+ *
+ *  @param text     文本
+ *  @param stayTime 停留秒数
+ */
++ (void)toastWithText:(NSString *)text stayTime:(CGFloat)stayTime;
+
+/**
  *  toast显示在底部
  *
  *  @param text 文本
@@ -102,20 +118,20 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 + (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
- *  延迟second秒后再显示toast
- *
- *  @param text   文本
- *  @param second 延迟的秒数
- */
-+ (void)toastWithText:(NSString *)text after:(CGFloat)second;
-
-/**
  *  延迟second秒后再在底部显示toast
  *
  *  @param text   文本
  *  @param second 延迟的秒数
  */
 + (void)bottomToastWithText:(NSString *)text after:(CGFloat)second;
+
+/**
+ *  底部显示toast，停留stayTime秒
+ *
+ *  @param text     文本
+ *  @param stayTime 停留秒数
+ */
++ (void)bottomToastWithText:(NSString *)text stayTime:(CGFloat)stayTime;
 
 /**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置

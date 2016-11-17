@@ -76,24 +76,12 @@ static DSLToastView *_sharedToast;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:YES];
-}
-
-+ (void)bottomToastWithText:(NSString *)text
-{
-    DSLToastView *toast = [DSLToastView sharedInstance];
-    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:NO];
+    [self toastWithAttributedText:attrStr isCenter:YES stayTime:-1];
 }
 
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText
 {
-    [self toastWithAttributedText:attributedText isCenter:YES];
-}
-
-+ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText
-{
-    [self toastWithAttributedText:attributedText isCenter:NO];
+    [self toastWithAttributedText:attributedText isCenter:YES stayTime:-1];
 }
 
 + (void)toastWithText:(NSString *)text after:(CGFloat)second
@@ -103,6 +91,25 @@ static DSLToastView *_sharedToast;
     });
 }
 
++ (void)toastWithText:(NSString *)text stayTime:(CGFloat)stayTime
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr isCenter:YES stayTime:stayTime];
+}
+
++ (void)bottomToastWithText:(NSString *)text
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr isCenter:NO stayTime:-1];
+}
+
++ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText
+{
+    [self toastWithAttributedText:attributedText isCenter:NO stayTime:-1];
+}
+
 + (void)bottomToastWithText:(NSString *)text after:(CGFloat)second
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -110,7 +117,14 @@ static DSLToastView *_sharedToast;
     });
 }
 
-+ (void)toastWithAttributedText:(NSAttributedString *)attributedText isCenter:(BOOL)isCenter;
++ (void)bottomToastWithText:(NSString *)text stayTime:(CGFloat)stayTime
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr isCenter:NO stayTime:stayTime];
+}
+
++ (void)toastWithAttributedText:(NSAttributedString *)attributedText isCenter:(BOOL)isCenter stayTime:(CGFloat)stayTime;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     toast.text = attributedText;
@@ -129,10 +143,11 @@ static DSLToastView *_sharedToast;
     [toast.layer removeAnimationForKey:@"dismiss"];
     [toast.layer removeAnimationForKey:@"appear"];
     
+    stayTime = stayTime >= 0 ? stayTime : toast.stayTime;
     if (toast.isToastStaying) {
-        [toast performSelector:@selector(dismissToast) withObject:nil afterDelay:toast.stayTime inModes:@[NSRunLoopCommonModes]];
+        [toast performSelector:@selector(dismissToast) withObject:nil afterDelay:stayTime inModes:@[NSRunLoopCommonModes]];
     } else {
-        [toast appearToast];
+        [toast appearToastWithStayTime:stayTime];
     }
 }
 
@@ -232,7 +247,7 @@ static DSLToastView *_sharedToast;
 
 #pragma mark - Other method
 
-- (void)appearToast
+- (void)appearToastWithStayTime:(CGFloat)stayTime
 {
     CABasicAnimation *appear = [CABasicAnimation animationWithKeyPath:@"opacity"];
     appear.fromValue = @(0);
@@ -241,7 +256,7 @@ static DSLToastView *_sharedToast;
     appear.removedOnCompletion = NO;
     appear.fillMode = kCAFillModeForwards;
     appear.delegate = self;
-    
+    [appear setValue:@(stayTime) forKey:@"toastStayTime"];
     [self.layer addAnimation:appear forKey:@"appear"];
 }
 
@@ -258,7 +273,6 @@ static DSLToastView *_sharedToast;
     dismiss.removedOnCompletion = NO;
     dismiss.fillMode = kCAFillModeForwards;
     dismiss.delegate = self;
-    
     [self.layer addAnimation:dismiss forKey:@"dismiss"];
 }
 
@@ -268,7 +282,8 @@ static DSLToastView *_sharedToast;
 {
     if ([self.layer animationForKey:@"appear"] == anim) {
         [self.layer removeAnimationForKey:@"appear"];
-        [self performSelector:@selector(dismissToast) withObject:nil afterDelay:_stayTime inModes:@[NSRunLoopCommonModes]];
+        CGFloat stayTime = [[anim valueForKey:@"toastStayTime"] doubleValue];
+        [self performSelector:@selector(dismissToast) withObject:nil afterDelay:stayTime inModes:@[NSRunLoopCommonModes]];
         _isToastStaying = YES;
     }
     else if ([self.layer animationForKey:@"dismiss"] == anim) {
