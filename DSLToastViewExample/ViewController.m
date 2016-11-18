@@ -29,13 +29,14 @@
                @"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
                @"底部toast",@"M-V-C\nM-V-V-M",@"很长很长很长很长很长很长很长很长很长很长很长很长"];
     
-    //设置成喜欢的风格
+    //设置成喜欢的风格 一次设置永久生效 使用[DSLToastView reset];重置
 //    [DSLToastView configureToastWithBlock:^(DSLToastView *sharedToast) {
 //        sharedToast.backgroundColor = [UIColor orangeColor];
 //        sharedToast.textColor = [UIColor whiteColor];
 //        sharedToast.layer.cornerRadius = 20;
 //        sharedToast.stayTime = 1.5;
 //        sharedToast.textAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:20]}.mutableCopy;
+//        sharedToast.topSpace = 100;
 //    }];
 }
 
@@ -67,7 +68,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     return cell;
 }
 
@@ -89,9 +90,10 @@
         [DSLToastView toastWithText:_texts[indexPath.row] stayTime:2.5];
     } else if (indexPath.row > 3 && indexPath.row < 7) {
         //显示在底部
-        [DSLToastView bottomToastWithText:_texts[indexPath.row]];
+        [DSLToastView toastWithText:_texts[indexPath.row] position:DSLToastViewPositionBottom];
     } else {
-        [DSLToastView bottomToastWithText:@"Hello" stayTime:0.7];
+        //显示在顶部
+        [DSLToastView toastWithText:[NSString stringWithFormat:@"hello %ld",(long)indexPath.row] position:DSLToastViewPositionTop];
     }
 }
 
@@ -123,7 +125,7 @@
 {
     if (buttonIndex == 1) {
         //延迟显示
-        [DSLToastView toastWithText:@"操作成功！" after:0.7];
+        [DSLToastView toastWithText:@"操作成功！" delay:0.7];
     }
 }
 

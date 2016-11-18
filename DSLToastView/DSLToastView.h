@@ -17,14 +17,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, DSLToastViewPosition) {
+    DSLToastViewPositionCenter,
+    DSLToastViewPositionBottom,
+    DSLToastViewPositionTop
+};
+
 @class DSLToastView;
 
 typedef void(^DSLToastViewConfigureBlock)(DSLToastView *sharedToast);
-
-typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
-    DSLToastViewStyleBlack,
-    DSLToastViewStyleWhite
-};
 
 @interface DSLToastView : UIView
 
@@ -32,11 +33,6 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
  *  设置文本属性
  */
 @property (nonatomic, strong) NSDictionary *textAttributes;
-
-/**
- *  y坐标的偏移量，默认为0
- */
-@property (nonatomic, assign) CGFloat yOffset;
 
 /**
  *  字体大小，默认17
@@ -74,64 +70,92 @@ typedef NS_ENUM(NSUInteger, DSLToastViewStyle) {
 @property (nonatomic, assign) CGFloat stayTime;
 
 /**
- *  toast显示方法
- *
- *  @param text 显示的文本
+ *  距离底部的间距，DSLToastViewPositionBottom 时有效
+ */
+@property (nonatomic, assign) CGFloat bottomSpace;
+
+/**
+ *  距离顶部的间距，DSLToastViewPositionTop 时有效
+ */
+@property (nonatomic, assign) CGFloat topSpace;
+
+/**
+ 显示
+
+ @param text 文本
  */
 + (void)toastWithText:(NSString *)text;
 
 /**
- *  toast显示方法
- *
- *  @param attributedText 显示的属性文本
+ 显示
+
+ @param attributedText 富文本
  */
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText;
 
 /**
- *  延迟second秒后再显示toast
- *
- *  @param text   文本
- *  @param second 延迟的秒数
+ 显示
+
+ @param text  文本
+ @param delay 延迟秒数
  */
-+ (void)toastWithText:(NSString *)text after:(CGFloat)second;
++ (void)toastWithText:(NSString *)text
+                delay:(CGFloat)delay;
 
 /**
- *  显示toast，停留stayTime秒
- *
- *  @param text     文本
- *  @param stayTime 停留秒数
+ 显示
+
+ @param text     文本
+ @param stayTime 停留秒数
  */
-+ (void)toastWithText:(NSString *)text stayTime:(CGFloat)stayTime;
++ (void)toastWithText:(NSString *)text
+             stayTime:(CGFloat)stayTime;
 
 /**
- *  toast显示在底部
- *
- *  @param text 文本
+ 显示
+
+ @param text     文本
+ @param position 位置
  */
-+ (void)bottomToastWithText:(NSString *)text;
++ (void)toastWithText:(NSString *)text
+             position:(DSLToastViewPosition)position;
 
 /**
- *  toast显示在底部
- *
- *  @param attributedText 属性文本
+ 显示
+
+ @param text     文本
+ @param stayTime 停留秒数
+ @param position 位置
  */
-+ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText;
++ (void)toastWithText:(NSString *)text
+             stayTime:(CGFloat)stayTime
+             position:(DSLToastViewPosition)position;
 
 /**
- *  延迟second秒后再在底部显示toast
- *
- *  @param text   文本
- *  @param second 延迟的秒数
+ 显示
+
+ @param text     文本
+ @param position 位置
+ @param yOffset  y偏移
  */
-+ (void)bottomToastWithText:(NSString *)text after:(CGFloat)second;
++ (void)toastWithText:(NSString *)text
+             position:(DSLToastViewPosition)position
+              yOffset:(CGFloat)yOffset;
 
 /**
- *  底部显示toast，停留stayTime秒
- *
- *  @param text     文本
- *  @param stayTime 停留秒数
+ 显示
+
+ @param text     文本
+ @param delay    延迟秒数
+ @param stayTime 停留秒数
+ @param position 位置
+ @param yOffset  y偏移
  */
-+ (void)bottomToastWithText:(NSString *)text stayTime:(CGFloat)stayTime;
++ (void)toastWithText:(NSString *)text
+                delay:(CGFloat)delay
+             stayTime:(CGFloat)stayTime
+             position:(DSLToastViewPosition)position
+              yOffset:(CGFloat)yOffset;
 
 /**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置

@@ -17,15 +17,14 @@ static CGFloat const kWidthExtra = 60;
 static CGFloat const kHeightExtra = 20;
 static CGFloat const kWidthCompensate = 0;
 static CGFloat const kHeightCompensate = 0;
-static CGFloat const kYOffset = 0;
 static CGFloat const kCornerRadius = 10;
 static CGFloat const kFadeDismissAnimationDuration = 0.3;
 static CGFloat const kFadeStartAnimationDuration = 0.2;
 static CGFloat const kStayTime = 1;
-static CGFloat const kBottomSpace = 49;
+static CGFloat const kBottomSpace = 59;
+static CGFloat const kTopSpace = 74;
 
 static DSLToastView *_sharedToast;
-
 
 @interface DSLToastView () <CAAnimationDelegate>
 
@@ -37,7 +36,6 @@ static DSLToastView *_sharedToast;
 @property (nonatomic, assign) BOOL isToastStaying;
 
 @end
-
 
 @implementation DSLToastView
 
@@ -76,17 +74,17 @@ static DSLToastView *_sharedToast;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:YES stayTime:-1];
+    [self toastWithAttributedText:attrStr stayTime:-1 position:DSLToastViewPositionCenter yOffset:0];
 }
 
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText
 {
-    [self toastWithAttributedText:attributedText isCenter:YES stayTime:-1];
+    [self toastWithAttributedText:attributedText stayTime:-1 position:DSLToastViewPositionCenter yOffset:0];
 }
 
-+ (void)toastWithText:(NSString *)text after:(CGFloat)second
++ (void)toastWithText:(NSString *)text delay:(CGFloat)delay
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self toastWithText:text];
     });
 }
@@ -95,46 +93,63 @@ static DSLToastView *_sharedToast;
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:YES stayTime:stayTime];
+    [self toastWithAttributedText:attrStr stayTime:stayTime position:DSLToastViewPositionCenter yOffset:0];
 }
 
-+ (void)bottomToastWithText:(NSString *)text
++ (void)toastWithText:(NSString *)text position:(DSLToastViewPosition)position
 {
     DSLToastView *toast = [DSLToastView sharedInstance];
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:NO stayTime:-1];
+    [self toastWithAttributedText:attrStr stayTime:-1 position:position yOffset:0];
 }
 
-+ (void)bottomToastWithAttributedText:(NSAttributedString *)attributedText
++ (void)toastWithText:(NSString *)text stayTime:(CGFloat)stayTime position:(DSLToastViewPosition)position
 {
-    [self toastWithAttributedText:attributedText isCenter:NO stayTime:-1];
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr stayTime:stayTime position:position yOffset:0];
 }
 
-+ (void)bottomToastWithText:(NSString *)text after:(CGFloat)second
++ (void)toastWithText:(NSString *)text position:(DSLToastViewPosition)position yOffset:(CGFloat)yOffset
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self bottomToastWithText:text];
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    [self toastWithAttributedText:attrStr stayTime:-1 position:position yOffset:yOffset];
+}
+
++ (void)toastWithText:(NSString *)text
+                delay:(CGFloat)delay
+             stayTime:(CGFloat)stayTime
+             position:(DSLToastViewPosition)position
+              yOffset:(CGFloat)yOffset
+{
+    DSLToastView *toast = [DSLToastView sharedInstance];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self toastWithAttributedText:attrStr stayTime:stayTime position:position yOffset:yOffset];
     });
 }
 
-+ (void)bottomToastWithText:(NSString *)text stayTime:(CGFloat)stayTime
++ (void)toastWithAttributedText:(NSAttributedString *)attributedText
+                       stayTime:(CGFloat)stayTime
+                       position:(DSLToastViewPosition)position
+                        yOffset:(CGFloat)yOffset
 {
-    DSLToastView *toast = [DSLToastView sharedInstance];
-    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:text attributes:toast.textAttributes];
-    [self toastWithAttributedText:attrStr isCenter:NO stayTime:stayTime];
-}
-
-+ (void)toastWithAttributedText:(NSAttributedString *)attributedText isCenter:(BOOL)isCenter stayTime:(CGFloat)stayTime;
-{
+    if (!attributedText.length) {
+        return;
+    }
     DSLToastView *toast = [DSLToastView sharedInstance];
     toast.text = attributedText;
     toast.frame = CGRectMake(0, 0, toast.width, toast.height);
     CGPoint center = kScreenCenter;
-    if (isCenter) {
-        center.y += toast.yOffset;
+    if (position == DSLToastViewPositionCenter) {
+        center.y += yOffset;
+    } else if (position == DSLToastViewPositionBottom) {
+        center.y = kScreenHeight - toast.bottomSpace - toast.height / 2;
+        center.y += yOffset;
     } else {
-        center.y = kScreenHeight - kBottomSpace - toast.height / 2;
-        center.y += toast.yOffset;
+        center.y = toast.topSpace + toast.height / 2;
+        center.y += yOffset;
     }
     toast.center = center;
     [[UIApplication sharedApplication].keyWindow addSubview:toast];
@@ -168,7 +183,8 @@ static DSLToastView *_sharedToast;
     _stayTime = kStayTime;
     _widthCompensate = kWidthCompensate;
     _heightCompensate = kHeightCompensate;
-    _yOffset = kYOffset;
+    _bottomSpace = kBottomSpace;
+    _topSpace = kTopSpace;
     _textColor = [UIColor whiteColor];
     _textAttributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
                         NSForegroundColorAttributeName:_textColor,
@@ -184,7 +200,7 @@ static DSLToastView *_sharedToast;
     _label.frame = CGRectMake(0, 5, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 10);
 }
 
-#pragma mark - Instance method
+#pragma mark - API
 
 + (void)configureToastWithBlock:(DSLToastViewConfigureBlock)block
 {
@@ -241,7 +257,6 @@ static DSLToastView *_sharedToast;
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor whiteColor];
     _label.numberOfLines = 0;
-    
     [self addSubview:_label];
 }
 
