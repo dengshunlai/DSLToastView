@@ -26,7 +26,7 @@
     _tableView.tableHeaderView = searchBar;
     
     _texts = @[@"加载失败",@"信息错误\n请重新输入",@"很长很长很长很长很长很长很长很长很长很长很长很长",
-               @"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate",
+               @"UITableViewDataSource\nUITableViewDelegate\nUIWebViewDelegate\n延长显示时间",
                @"底部toast",@"M-V-C\nM-V-V-M",@"很长很长很长很长很长很长很长很长很长很长很长很长"];
     
     //设置成喜欢的风格 一次设置永久生效 使用[DSLToastView reset];重置

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D6EE046E1DDD8846006799D5 /* DSLToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6EE046D1DDD8846006799D5 /* DSLToastView.m */; };
 		DD05C1271D33C14D00DC4FFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD05C1261D33C14D00DC4FFF /* main.m */; };
 		DD05C12A1D33C14D00DC4FFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD05C1291D33C14D00DC4FFF /* AppDelegate.m */; };
 		DD05C12D1D33C14D00DC4FFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD05C12C1D33C14D00DC4FFF /* ViewController.m */; };
@@ -16,6 +15,8 @@
 		DD05C1351D33C14D00DC4FFF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD05C1331D33C14D00DC4FFF /* LaunchScreen.storyboard */; };
 		DD05C1401D33C14D00DC4FFF /* DSLToastViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD05C13F1D33C14D00DC4FFF /* DSLToastViewTests.m */; };
 		DD05C14B1D33C14D00DC4FFF /* DSLToastViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD05C14A1D33C14D00DC4FFF /* DSLToastViewUITests.m */; };
+		DD7BF2061DE999960048B9B7 /* DSLToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF2051DE999960048B9B7 /* DSLToastView.m */; };
+		DD7BF2081DE9999C0048B9B7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF2071DE9999C0048B9B7 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D6EE046C1DDD8846006799D5 /* DSLToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSLToastView.h; sourceTree = "<group>"; };
-		D6EE046D1DDD8846006799D5 /* DSLToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSLToastView.m; sourceTree = "<group>"; };
 		DD05C1221D33C14D00DC4FFF /* DSLToastView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSLToastView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD05C1261D33C14D00DC4FFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DD05C1281D33C14D00DC4FFF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -54,6 +53,9 @@
 		DD05C1461D33C14D00DC4FFF /* DSLToastViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DSLToastViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD05C14A1D33C14D00DC4FFF /* DSLToastViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSLToastViewUITests.m; sourceTree = "<group>"; };
 		DD05C14C1D33C14D00DC4FFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD7BF2041DE999960048B9B7 /* DSLToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSLToastView.h; sourceTree = "<group>"; };
+		DD7BF2051DE999960048B9B7 /* DSLToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSLToastView.m; sourceTree = "<group>"; };
+		DD7BF2071DE9999C0048B9B7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,18 +83,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D6EE046B1DDD8846006799D5 /* DSLToastView */ = {
-			isa = PBXGroup;
-			children = (
-				D6EE046C1DDD8846006799D5 /* DSLToastView.h */,
-				D6EE046D1DDD8846006799D5 /* DSLToastView.m */,
-			);
-			path = DSLToastView;
-			sourceTree = SOURCE_ROOT;
-		};
 		DD05C1191D33C14D00DC4FFF = {
 			isa = PBXGroup;
 			children = (
+				DD7BF2071DE9999C0048B9B7 /* README.md */,
+				DD7BF2031DE999960048B9B7 /* DSLToastView */,
 				DD05C1241D33C14D00DC4FFF /* DSLToastViewExample */,
 				DD05C13E1D33C14D00DC4FFF /* DSLToastViewTests */,
 				DD05C1491D33C14D00DC4FFF /* DSLToastViewUITests */,
@@ -113,7 +108,6 @@
 		DD05C1241D33C14D00DC4FFF /* DSLToastViewExample */ = {
 			isa = PBXGroup;
 			children = (
-				D6EE046B1DDD8846006799D5 /* DSLToastView */,
 				DD05C1281D33C14D00DC4FFF /* AppDelegate.h */,
 				DD05C1291D33C14D00DC4FFF /* AppDelegate.m */,
 				DD05C12B1D33C14D00DC4FFF /* ViewController.h */,
@@ -151,6 +145,15 @@
 				DD05C14C1D33C14D00DC4FFF /* Info.plist */,
 			);
 			path = DSLToastViewUITests;
+			sourceTree = "<group>";
+		};
+		DD7BF2031DE999960048B9B7 /* DSLToastView */ = {
+			isa = PBXGroup;
+			children = (
+				DD7BF2041DE999960048B9B7 /* DSLToastView.h */,
+				DD7BF2051DE999960048B9B7 /* DSLToastView.m */,
+			);
+			path = DSLToastView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,7 +223,7 @@
 				TargetAttributes = {
 					DD05C1211D33C14D00DC4FFF = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = UJ6ZZAPFYZ;
+						DevelopmentTeam = QTRV8G9WAU;
 					};
 					DD05C13A1D33C14D00DC4FFF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -286,7 +289,8 @@
 			files = (
 				DD05C12D1D33C14D00DC4FFF /* ViewController.m in Sources */,
 				DD05C12A1D33C14D00DC4FFF /* AppDelegate.m in Sources */,
-				D6EE046E1DDD8846006799D5 /* DSLToastView.m in Sources */,
+				DD7BF2081DE9999C0048B9B7 /* README.md in Sources */,
+				DD7BF2061DE999960048B9B7 /* DSLToastView.m in Sources */,
 				DD05C1271D33C14D00DC4FFF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,7 +436,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UJ6ZZAPFYZ;
+				DEVELOPMENT_TEAM = QTRV8G9WAU;
 				INFOPLIST_FILE = DSLToastViewExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -448,7 +452,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UJ6ZZAPFYZ;
+				DEVELOPMENT_TEAM = QTRV8G9WAU;
 				INFOPLIST_FILE = DSLToastViewExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
