@@ -65,7 +65,7 @@ typedef void(^DSLToastViewConfigureBlock)(DSLToastView *sharedToast);
 @property (nonatomic, assign) CGFloat fadeDismissAnimationDuration;
 
 /**
- *  toast停留显示的时间长度，默认1，上述三个时间之和为toast的整个显示时长
+ *  toast停留显示的时间长度，默认1.5，上述三个时间之和为toast的整个显示时长
  */
 @property (nonatomic, assign) CGFloat stayTime;
 
