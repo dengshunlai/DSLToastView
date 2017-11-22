@@ -184,7 +184,7 @@ static DSLToastView *_sharedToast;
                         NSForegroundColorAttributeName:_textColor,
                         NSParagraphStyleAttributeName:para}.mutableCopy;
 
-    [self creatLabel];
+    [self createLabel];
 }
 
 - (void)layoutSubviews
@@ -241,7 +241,7 @@ static DSLToastView *_sharedToast;
 
 #pragma mark - Create UI
 
-- (void)creatLabel
+- (void)createLabel
 {
     if (_label) {
         return;
