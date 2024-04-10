@@ -21,8 +21,8 @@ static CGFloat const kCornerRadius = 10;
 static CGFloat const kFadeDismissAnimationDuration = 0.3;
 static CGFloat const kFadeStartAnimationDuration = 0.2;
 static CGFloat const kStayTime = 1.5;
-static CGFloat const kBottomSpace = 59;
-static CGFloat const kTopSpace = 74;
+static CGFloat const kBottomSpace = 49 + 10;
+static CGFloat const kTopSpace = 44 + 10;
 
 static DSLToastView *_sharedToast;
 
@@ -139,10 +139,18 @@ static DSLToastView *_sharedToast;
     if (position == DSLToastViewPositionCenter) {
         center.y += yOffset;
     } else if (position == DSLToastViewPositionBottom) {
-        center.y = kScreenHeight - toast.bottomSpace - toast.height / 2;
+        if (@available(iOS 11, *)) {
+            center.y = kScreenHeight - toast.height / 2 - toast.bottomSpace - [UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom;
+        } else {
+            center.y = kScreenHeight - toast.height / 2 - toast.bottomSpace;
+        }
         center.y += yOffset;
     } else {
-        center.y = toast.topSpace + toast.height / 2;
+        if (@available(iOS 11, *)) {
+            center.y = toast.height / 2 + toast.topSpace + [UIApplication sharedApplication].keyWindow.safeAreaInsets.top;
+        } else {
+            center.y = toast.height / 2 + toast.topSpace;
+        }
         center.y += yOffset;
     }
     toast.center = center;
@@ -191,7 +199,7 @@ static DSLToastView *_sharedToast;
 {
     [super layoutSubviews];
     
-    _label.frame = CGRectMake(0, 5, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 10);
+    _label.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
 }
 
 #pragma mark - API
@@ -210,17 +218,25 @@ static DSLToastView *_sharedToast;
 
 - (void)setText:(NSAttributedString *)text
 {
-    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kScreenWidth - 20, MAXFLOAT)
+    CGFloat realWitdhCompensate = kWidthExtra + _widthCompensate;
+    CGFloat realHeightCompensate = kHeightExtra + _heightCompensate;
+    if (realWitdhCompensate < 0) {
+        realWitdhCompensate = 0;
+    }
+    if (realHeightCompensate < 0) {
+        realHeightCompensate = 0;
+    }
+    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kScreenWidth - 20 - realWitdhCompensate, MAXFLOAT)
                                          options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
-    
     _label.attributedText = text;
+    _label.bounds = textRect;
     
-    if (textRect.size.width + kWidthExtra < kScreenWidth - 20) {
-        _width = ceil(textRect.size.width + kWidthExtra + _widthCompensate);
+    if (textRect.size.width + realWitdhCompensate < kScreenWidth - 20) {
+        _width = ceil(textRect.size.width + realWitdhCompensate);
     } else {
         _width = kScreenWidth - 20;
     }
-    _height = ceil(textRect.size.height + kHeightExtra + _heightCompensate);
+    _height = ceil(textRect.size.height + realHeightCompensate);
 }
 
 - (void)setTextColor:(UIColor *)textColor

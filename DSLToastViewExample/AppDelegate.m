@@ -17,6 +17,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    if (@available(iOS 13.0, *)) {
+        UINavigationBar *nbAppearance = [UINavigationBar appearance];
+        UINavigationBarAppearance *nbStandarAppearance = [[UINavigationBarAppearance alloc] init];
+        nbStandarAppearance.backgroundColor = [UIColor whiteColor];
+        nbAppearance.standardAppearance = nbStandarAppearance;
+        nbAppearance.compactAppearance = nbStandarAppearance;
+        nbAppearance.scrollEdgeAppearance = nbStandarAppearance;
+    }
+    
     return YES;
 }
 
