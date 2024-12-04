@@ -80,20 +80,8 @@ typedef void(^DSLToastViewConfigureBlock)(DSLToastView *sharedToast);
 @property (nonatomic, assign) CGFloat topSpace;
 
 /**
- 显示
-
- @param text     文本
- @param delay    延迟秒数
- @param stayTime 停留秒数
- @param position 位置
- @param yOffset  y偏移
+ *  简便显示方法
  */
-+ (void)toastWithText:(NSString *)text
-                delay:(CGFloat)delay
-             stayTime:(CGFloat)stayTime
-             position:(DSLToastViewPosition)position
-              yOffset:(CGFloat)yOffset;
-
 + (void)toastWithText:(NSString *)text;
 
 + (void)toastWithText:(NSString *)text
@@ -114,6 +102,21 @@ typedef void(^DSLToastViewConfigureBlock)(DSLToastView *sharedToast);
               yOffset:(CGFloat)yOffset;
 
 + (void)toastWithAttributedText:(NSAttributedString *)attributedText;
+
+/**
+ 显示
+
+ @param text     文本
+ @param delay    延迟秒数
+ @param stayTime 停留秒数
+ @param position 位置
+ @param yOffset  y偏移
+ */
++ (void)toastWithText:(NSString *)text
+                delay:(CGFloat)delay
+             stayTime:(CGFloat)stayTime
+             position:(DSLToastViewPosition)position
+              yOffset:(CGFloat)yOffset;
 
 /**
  *  toast配置属性用此block，该控件是一个单例，block中会传入该单例以供配置

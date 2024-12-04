@@ -7,7 +7,7 @@
 //显示在中间
 [DSLToastView toastWithText:@"文本"]; 
 //显示在底部
-[DSLToastView bottomToastWithText:@"文本"]; 
+[DSLToastView toastWithText:@"文本" position:DSLToastViewPositionBottom];
 ```
 更多用法请看Demo
 

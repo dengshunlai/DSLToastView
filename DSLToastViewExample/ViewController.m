@@ -62,13 +62,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return 12;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+    NSString *text = @"";
+    if (indexPath.row <= 2) {
+        text = @"显示在中间";
+    } else if (indexPath.row == 3) {
+        text = @"延长显示时间2.5秒";
+    } else if (indexPath.row > 3 && indexPath.row < 7) {
+        text = @"显示在底部";
+    } else {
+        text = @"显示在顶部";
+    }
+    cell.textLabel.text = text;
     return cell;
 }
 
